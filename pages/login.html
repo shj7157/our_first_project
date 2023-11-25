@@ -1,0 +1,196 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="jquery-3.7.0.min.js"></script>
+    <title>로그인 페이지</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="login.css" />
+    <script>
+      //팝업창
+      // var pop = window.open("popup.html","", "width=700,height=500");
+      // pop.moveBy(600,200);
+
+      $(document).ready(function () {
+        $(".menu-selected").hover(
+          function () {
+            $(this).find(".menu-content").css("display", "block");
+          },
+          function () {
+            $(this).find(".menu-content").css("display", "none");
+          }
+        );
+        $(".menu-selected")
+          .focusin(function () {
+            $(this).find(".menu-content").css("display", "block");
+          })
+          .focusout(function () {
+            $(this).find(".menu-content").css("display", "none");
+          });
+      });
+    </script>
+    <script>
+      window.onload = function () {
+        const topNav = document.getElementById("topNav");
+
+        topNav.addEventListener("mouseenter", () => {
+          topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+        });
+
+        topNav.addEventListener("mouseleave", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <nav class="topNav" id="topNav">
+      <a href="banner.html" class="logo"></a>
+      <div class="menuList">
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">item ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="top.html"><li id="sel">top</li></a>
+              <a href="bottom.html"><li id="sel">bottom</li></a>
+              <a href="outer.html"><li id="sel">outer</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">home page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="bord.html"><li id="sel">게시판</li></a>
+              <a href="notice.html"><li id="sel">notice</li></a>
+              <a href="center.html"><li id="sel">고객센터</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">my page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="order_list.html"><li id="sel">주문 내역</li></a>
+              <a href="mypage.html"><li id="sel">내 정보</li></a>
+              <a href="bbaguri.html"><li id="sel">cart</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu" id="loginButtonContainer">
+          <a id="loginButton" href="login.html">Login</a>
+        </div>
+        <div class="menu" id="logoutButtonContainer" style="display: none">
+          <a id="logoutButton" href="#" onclick="logoutButtonClick()">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <div>
+      <br /><br /><br /><br /><br /><br />
+      <main id="main-holder">
+        <h1 id="login-header">Login</h1>
+
+        <div id="login-error-msg-holder">
+          <p id="login-error-msg">
+            Invalid username
+            <span id="error-msg-second-line">and/or password</span>
+          </p>
+        </div>
+        <form id="login-form">
+          <input
+            type="text"
+            name="username"
+            id="username-field"
+            class="login-form-field"
+            placeholder="Username"
+          />
+          <input
+            type="password"
+            name="password"
+            id="password-field"
+            class="login-form-field"
+            placeholder="Password"
+          />
+          <input type="button" value="Login" id="login-form-submit" />
+          <br />
+          <input type="button" value="Join" id="join-form-submit" />
+        </form>
+      </main>
+    </div>
+    <script>
+      const joinButton = document.getElementById("join-form-submit");
+
+      // Join 버튼을 클릭했을 때의 이벤트 처리를 추가합니다.
+      joinButton.addEventListener("click", function () {
+        // join.html로 이동합니다.
+        window.location.href = "join.html";
+      });
+
+      $("#password-field").keypress(function (e) {
+        if (e.which === 13) {
+          // Enter 키의 keyCode는 13입니다.
+          $("#login-form-submit").click(); // 로그인 버튼을 클릭합니in[다.
+        }
+      });
+      document
+        .getElementById("login-form-submit")
+        .addEventListener("click", function () {
+          const userid = document.getElementById("username-field").value;
+          const password = document.getElementById("password-field").value;
+
+          const loginInfo = {
+            userid: userid,
+            password: password,
+          };
+
+          // 서버로 로그인 요청을 보내는 부분입니다.
+          fetch(`http://localhost:3000/api/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginInfo),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("네트워크 응답이 올바르지 않습니다.");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              // 로그인 성공 시 처리
+              console.log(data);
+              if (data.success) {
+                // 현재 페이지를 다른 페이지로 이동
+                console.log(data.token);
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("userId", data.userid);
+                window.location.href = "banner.html";
+                // res.session.loginInfo = {loginInfo: true}
+                return data.success;
+              }
+              // 페이지를 다른 곳으로 리디렉션하거나 다른 작업을 수행할 수 있습니다.
+              // 예를 들어, 로그인 성공 시 메인 페이지로 이동하도록 할 수 있습니다.
+            })
+            .catch((error) => {
+              // 로그인 실패 시 처리
+              alert("등록되지 않은 사용자입니다.");
+              console.error("API 호출 중에 오류가 발생했습니다:", error);
+            });
+        });
+    </script>
+  </body>
+</html>

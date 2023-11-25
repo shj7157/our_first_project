@@ -1,0 +1,231 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <title>my page</title>
+    <link rel="stylesheet" href="main.css" />
+    <script>
+      $(document).ready(function () {
+        $(".menu-selected").hover(
+          function () {
+            $(this).find(".menu-content").css("display", "block");
+          },
+          function () {
+            $(this).find(".menu-content").css("display", "none");
+          }
+        );
+        $(".menu-selected")
+          .focusin(function () {
+            $(this).find(".menu-content").css("display", "block");
+          })
+          .focusout(function () {
+            $(this).find(".menu-content").css("display", "none");
+          });
+      });
+    </script>
+    <script>
+      window.onload = function () {
+        const topNav = document.getElementById("topNav");
+
+        topNav.addEventListener("mouseenter", () => {
+          topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+        });
+
+        topNav.addEventListener("mouseleave", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+      };
+    </script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      .h2{
+        width: 80%;
+        margin: auto;
+        padding: 30px;
+        font-size: 40px;
+      }
+      #order{
+        width: 80%;
+        margin: auto;
+        padding: 30px;
+      }
+      table{
+        border-top: solid 1.5px black;
+        border-bottom: solid 1.4px black;
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+      }
+      thead {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      tbody {
+        font-size: 20px;
+        text-align: center;
+        border-bottom: 1px solid lightgrey;
+      }
+
+      th {
+        padding: 15px 0px;
+        border-bottom: 1px solid lightgrey;
+      }
+      tbody > tr {
+        border-bottom: 1px solid lightgrey;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="topNav" id="topNav">
+      <a href="banner.html" class="logo"></a>
+      <div class="menuList">
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">item ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="top.html"><li id="sel">top</li></a>
+              <a href="bottom.html"><li id="sel">bottom</li></a>
+              <a href="outer.html"><li id="sel">outer</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">home page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="bord.html"><li id="sel">게시판</li></a>
+              <a href="notice.html"><li id="sel">notice</li></a>
+              <a href="center.html"><li id="sel">고객센터</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">my page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="order_list.html"><li id="sel">주문 내역</li></a>
+              <a href="mypage.html"><li id="sel">내 정보</li></a>
+              <a href="bbaguri.html"><li id="sel">cart</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu" id="loginButtonContainer">
+          <a id="loginButton" href="login.html">Login</a>
+        </div>
+        <div class="menu" id="logoutButtonContainer" style="display: none">
+          <a id="logoutButton" href="#" onclick="logoutButtonClick()">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <br /><br /><br /><br /><br /><br /><br />
+    <p class="h2"
+      style="
+        text-align: center;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+      ">
+      
+      order-list
+    </p>
+    <!-- <div class="containerx">-->
+      
+      <form class="joinform" action="" id="joinform">
+        <table id="order">
+          <thead>
+            <tr>
+              <th>주문 번호</th>
+              <th>상품 이름</th>
+              <th>주문 일자</th>
+              <th>수량</th>
+              <th>가격</th>
+              <th>총가격</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr></tr>
+          </tbody>
+          <p style="text-align: right">.<br><br></p>
+      </form>
+    </table>
+    <!--</div> -->
+    <script src="logined.js"></script>
+    <script>
+      $(document).ready(function () {
+        // 페이지가 로드될 때 사용자 정보를 가져와서 프로필 수정 폼에 채웁니다.
+        fetchorderInfo();
+      });
+      const newtd = (content) => {
+        let newTdElement = document.createElement("td");
+        newTdElement.textContent = content;
+        return newTdElement;
+      };
+      function fetchorderInfo() {
+        // Get Goods_no from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const or_no = urlParams.get("userId");
+
+        // 상품 정보를 가져오는 API 엔드포인트에 요청을 보냅니다.
+        let orderToken = { orderToken: localStorage.getItem("userId") };
+        fetch(`http://localhost:3000/api/order`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderToken),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("네트워크 응답이 올바르지 않습니다.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            const tbody = document.querySelector("tbody");
+
+            data.forEach((elementData) => {
+              const tr = document.createElement("tr");
+              const total_price = newtd(elementData.or_q * elementData.price);
+              // 각 데이터에 대한 td 엘리먼트 생성 및 tr에 추가
+              const orNoTd = newtd(elementData.or_no);
+              const goodsNoTd = newtd(elementData.goods_no);
+              const orQTd = newtd(elementData.or_q);
+              const dateTd = newtd(elementData.date);
+              const goodsNameTd = newtd(elementData.Goods_name);
+              const priceTd = newtd(elementData.price);
+
+              tr.appendChild(orNoTd);
+              tr.appendChild(goodsNameTd);
+              tr.appendChild(dateTd);
+              tr.appendChild(orQTd);
+              tr.appendChild(priceTd);
+              tr.appendChild(total_price);
+              // tr.appendChild(data.or_q * data.price);
+
+              // tbody에 tr 추가
+              tbody.appendChild(tr);
+            });
+          })
+          .catch((error) => {
+            console.error("API 호출 중에 오류가 발생했습니다:", error);
+          });
+      }
+    </script>
+  </body>
+</html>

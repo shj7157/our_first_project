@@ -1,0 +1,147 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="jquery-3.7.0.min.js"></script>
+    <title>bord</title>
+    <link rel="stylesheet" href="main.css" />
+    <script>
+      //팝업창
+      // var pop = window.open("popup.html","", "width=700,height=500");
+      // pop.moveBy(600,200);
+
+      $(document).ready(function () {
+        $(".menu-selected").hover(
+          function () {
+            $(this).find(".menu-content").css("display", "block");
+          },
+          function () {
+            $(this).find(".menu-content").css("display", "none");
+          }
+        );
+        $(".menu-selected")
+          .focusin(function () {
+            $(this).find(".menu-content").css("display", "block");
+          })
+          .focusout(function () {
+            $(this).find(".menu-content").css("display", "none");
+          });
+      });
+    </script>
+    <script>
+      window.onload = function () {
+        const topNav = document.getElementById("topNav");
+
+        topNav.addEventListener("mouseenter", () => {
+          topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+        });
+
+        topNav.addEventListener("mouseleave", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <nav class="topNav" id="topNav">
+      <a href="banner.html" class="logo"></a>
+      <div class="menuList">
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">item ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="top.html"><li id="sel">top</li></a>
+              <a href="bottom.html"><li id="sel">bottom</li></a>
+              <a href="outer.html"><li id="sel">outer</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">home page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="bord.html"><li id="sel">게시판</li></a>
+              <a href="notice.html"><li id="sel">notice</li></a>
+              <a href="center.html"><li id="sel">고객센터</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">my page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="order_list.html"><li id="sel">주문 내역</li></a>
+              <a href="mypage.html"><li id="sel">내 정보</li></a>
+              <a href="bbaguri.html"><li id="sel">cart</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu" id="loginButtonContainer">
+          <a id="loginButton" href="login.html">Login</a>
+        </div>
+        <div class="menu" id="logoutButtonContainer" style="display: none">
+          <a id="logoutButton" href="#" onclick="logoutButtonClick()">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <main>
+      <section class="new">
+        <ul class="new_img">
+          <p
+            style="
+              font-size: 50px;
+              text-align: center;
+              padding: 15px;
+              margin: 15px;
+            "
+          >
+            상품 문의 - <br />카톡ID : asas01308@gmail.com <br />
+            instargram direct : @s_h_j_01 <br />
+            e-mail : ana3630@naver.com <br /><br />
+            교환 환불 문의 - <br />
+            카톡ID : asas01308@gmail.com <br />
+            instargram direct : @s_h_j_01 <br />
+            e-mail : ana3630@naver.com
+          </p>
+        </ul>
+      </section>
+      <!-- <br /><br />
+      <section class="bestSection">
+        <div>
+          <ul class="best">
+            <hr />
+            베스트
+          </ul>
+          <div class="best-image">
+            <img src="P2.png" width="500px" height="300px" />
+            <p class="price">90,000</p>
+          </div>
+          <div class="best-image">
+            <img src="P2.png" width="500px" height="300px" />
+          </div>
+          <div class="best-image">
+            <img src="P2.png" width="500px" height="300px" />
+          </div>
+          <div class="best-image">
+            <img src="P2.png" width="500px" height="300px" />
+          </div>
+        </div>
+      </section> -->
+    </main>
+    <script src="logined.js"></script>
+  </body>
+</html>

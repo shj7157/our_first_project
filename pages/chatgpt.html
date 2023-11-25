@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쇼핑몰 장바구니</title>
+    <style>
+        /* 스타일 부분은 그대로 유지합니다. */
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #cart {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>장바구니</h1>
+    <div id="cart">
+        <h2>장바구니 목록</h2>
+        <ul id="cart-items">
+            <!-- 장바구니 아이템이 여기에 동적으로 추가될 것입니다. -->
+        </ul>
+        <p id="cart-total">총 금액: $0</p>
+    </div>
+    <h2>제품 목록</h2>
+    <ul>
+        <li>
+            품목: 물티슈
+            가격: $2.5
+            <button onclick="addToCart('물티슈', 2.5)">장바구니에 추가</button>
+        </li>
+        <li>
+            품목: 책
+            가격: $10
+            <button onclick="addToCart('책', 10)">장바구니에 추가</button>
+        </li>
+        <li>
+            품목: 과자
+            가격: $1.5
+            <button onclick="addToCart('과자', 1.5)">장바구니에 추가</button>
+        </li>
+    </ul>
+
+    <script>
+        function addToCart(itemName, itemPrice) {
+            // 선택한 제품을 장바구니에 추가하는 JavaScript 함수
+            const cartItems = document.getElementById("cart-items");
+            const li = document.createElement("li");
+            li.textContent = `${itemName} - $${itemPrice}`;
+            cartItems.appendChild(li);
+            
+            // 총 금액 업데이트
+            const cartTotal = document.getElementById("cart-total");
+            const currentTotal = parseFloat(cartTotal.textContent.split('$')[1]);
+            const newTotal = currentTotal + itemPrice;
+            cartTotal.textContent = `총 금액: $${newTotal}`;
+        }
+    </script>
+    
+</body>
+</html>

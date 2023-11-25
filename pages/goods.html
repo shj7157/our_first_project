@@ -1,0 +1,232 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="jquery-3.7.0.min.js"></script>
+    <title>bord</title>
+    <link rel="stylesheet" href="goods.css" />
+    <script>
+      $(document).ready(function () {
+        $(".menu-selected").hover(
+          function () {
+            $(this).find(".menu-content").css("display", "block");
+          },
+          function () {
+            $(this).find(".menu-content").css("display", "none");
+          }
+        );
+        $(".menu-selected")
+          .focusin(function () {
+            $(this).find(".menu-content").css("display", "block");
+          })
+          .focusout(function () {
+            $(this).find(".menu-content").css("display", "none");
+          });
+      });
+    </script>
+    <script>
+      window.onload = function () {
+        const topNav = document.getElementById("topNav");
+
+        topNav.addEventListener("mouseenter", () => {
+          topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+        });
+
+        topNav.addEventListener("mouseleave", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <nav class="topNav" id="topNav">
+      <a href="banner.html" class="logo"></a>
+      <div class="menuList">
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">item ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="top.html"><li id="sel">top</li></a>
+              <a href="bottom.html"><li id="sel">bottom</li></a>
+              <a href="outer.html"><li id="sel">outer</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">home page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="bord.html"><li id="sel">게시판</li></a>
+              <a href="notice.html"><li id="sel">notice</li></a>
+              <a href="center.html"><li id="sel">고객센터</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">my page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="order_list.html"><li id="sel">주문 내역</li></a>
+              <a href="mypage.html"><li id="sel">내 정보</li></a>
+              <a href="bbaguri.html"><li id="sel">cart</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu" id="loginButtonContainer">
+          <a id="loginButton" href="login.html">Login</a>
+        </div>
+        <div class="menu" id="logoutButtonContainer" style="display: none">
+          <a id="logoutButton" href="#" onclick="logoutButtonClick()">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <main>
+      <section class="aboveSection">
+        <div class="aboveDiv">
+          <ul class="aboveUl">
+            <div class="aboveimage" id="Goods_img_src"></div>
+          </ul>
+          <div>
+            <ul class="goodsinfo">
+              <p>Goods_no :&nbsp;&nbsp;</p>
+              <p id="Goods_no" name="Goods_no"></p>
+            </ul>
+            <br /><br />
+
+            <ul class="goodsinfo">
+              <p>Goods_name :&nbsp;&nbsp;</p>
+              <p id="Goods_name" name="Goods_name" required></p>
+            </ul>
+            <br /><br />
+
+            <ul class="goodsinfo">
+              <p>price :&nbsp;&nbsp;</p>
+              <p id="price" name="price" required></p>
+            </ul>
+            <br /><br />
+
+            <ul class="goodsinfo">
+              <p>quantity :&nbsp;&nbsp;</p>
+              <input type="text" id="Goods_q" />
+            </ul>
+            <br /><br />
+
+            <ul class="goodsinfo">
+              <p>상품 설명 :&nbsp;&nbsp;&nbsp;</p>
+              <p id="explain" name="explain" required></p>
+            </ul>
+            <br /><br />
+            <ul class="goodsinfo">
+              <a onclick="buyGoods()"
+                ><input type="button" value="buy it now" class="btn" id="buy" />
+              </a>
+              <a onclick="addtocart()"
+                ><input type="button" value="add to cart" class="btn" id="cart"
+              /></a>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="logined.js"></script>
+    <script>
+      $(document).ready(function () {
+        // 페이지가 로드될 때 사용자 정보를 가져와서 프로필 수정 폼에 채웁니다.
+        fetchGoodsInfo();
+      });
+
+      function fetchGoodsInfo() {
+        // Get Goods_no from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const Goods_no = urlParams.get("Goods_no");
+
+        // 상품 정보를 가져오는 API 엔드포인트에 요청을 보냅니다.
+        let goodsToken = { Goods_no: Goods_no };
+        fetch(`http://localhost:3000/api/goods`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(goodsToken),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("네트워크 응답이 올바르지 않습니다.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            localStorage.setItem("goodsToken", data.Goods_no);
+            // 서버로부터 가져온 상품 정보를 폼 필드에 채웁니다.
+            document.getElementById("Goods_no").textContent = data.Goods_no;
+            document.getElementById("Goods_name").textContent = data.Goods_name;
+            document.getElementById("price").textContent = data.price;
+            document.getElementById("explain").textContent = data.explain;
+            const aboveImageElement = document.getElementById("Goods_img_src");
+
+            // Use the relative URL to access the image
+            if (aboveImageElement) {
+              const imagePath = `http://localhost:3000${data.Goods_img_src}.jpg`;
+              aboveImageElement.style.backgroundImage = `url(${imagePath})`;
+            } else {
+              console.log("불가능");
+            }
+          })
+          .catch((error) => {
+            console.error("API 호출 중에 오류가 발생했습니다:", error);
+          });
+      }
+      async function addtocart() {
+        const Goods_q = document.getElementById("Goods_q").value;
+        localStorage.setItem("Goods_q", Goods_q);
+        let buyToken = {
+          buyToken: localStorage.getItem("goodsToken"),
+          userId: localStorage.getItem("userId"),
+          Goods_q: localStorage.getItem("Goods_q"),
+        };
+        try {
+          const response = await fetch(`http://localhost:3000/api/addtocart`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(buyToken),
+          });
+          if (response.status === 200) {
+            // 서버 응답이 성공인 경우
+            // response를 출력하도록 수정
+            // 로컬 스토리지, 세션 스토리지에서 토큰을 삭제 또는 무효화
+            console.log(JSON.stringify(buyToken));
+            localStorage.removeItem("goodsToken"); // 로컬 스토리지에서 토큰 삭제
+            window.alert("장바구니에 담았습니다."); // 페이지 이동
+          } else {
+            // 서버 응답이 성공이 아닌 경우
+            return console.error("Error:", response.statusText);
+          }
+        } catch (error) {
+          return console.error("Error during fetch:", error);
+        }
+      }
+      async function buyGoods() {
+        const Goods_q = document.getElementById("Goods_q").value;
+        localStorage.setItem("Goods_q", Goods_q);
+        window.location.href = "payment.html";
+      }
+    </script>
+  </body>
+</html>

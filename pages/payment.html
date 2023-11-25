@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>payment</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+      .imfomation {
+        width: 1000px;
+        height: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      input[type="text"] {
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 30%;
+      }
+      #address {
+        margin-bottom: 2px;
+      }
+      #address_detail {
+        margin-top: 0px;
+      }
+      .complete {
+        padding: 5px;
+        margin-top: 10px;
+        margin-bottom: 2px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 200px;
+      }
+      .complete:hover {
+        background-color: #9e9999;
+      }
+      .pay_a {
+        font-size: 10px;
+        color: #747171;
+      }
+      #Goods_img_src {
+        width: 30vw;
+        height: 70vh;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="imfomation">
+      <p class="title">결제하기</p>
+      <div
+        style="float: left; margin-right: 50px; vertical-align: middle"
+        id="Goods_img_src"
+      ></div>
+      <form class="enter">
+        <label for="">상품명</label>
+        <div
+          class="goods_name"
+          id="goods_name"
+          style="margin-bottom: 10px; font-size: 13px"
+        >
+          어쩌고~ 저쩌고~
+        </div>
+        <label for="">배송지</label>
+        <div>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            placeholder="지번주소"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            id="address_detail"
+            name="address_detail"
+            placeholder="상세주소 > 101동 101호"
+          />
+        </div>
+        <label for="">주문자</label>
+        <div><input type="text" id="ordername" /></div>
+        <label for="">연락처</label>
+        <div><input type="text" id="orderphone" /></div>
+
+        <label for="">결제금액</label>
+        <div class="pay_a">상품금액</div>
+        <div><input type="text" id="price" /></div>
+        <div class="pay_a">수량</div>
+        <div>
+          <input type="text" id="Goods_q" />
+        </div>
+        <div class="pay_a">배송료 3000원</div>
+        <div class="pay_a">총금액</div>
+        <div><input type="text" id="total_price" /></div>
+        <div style="margin-bottom: 10px"></div>
+        <label for="">결제방식</label>
+        <div>
+          <input
+            type="radio"
+            name="pay"
+            checked="checked"
+            value="무통장 입금"
+          />무통장 입금
+          <div class="pay_a">무통장 입금 >> 국민은행 941602-00-929701</div>
+        </div>
+        <input
+          type="button"
+          class="complete"
+          onclick="location.href='goods.html'"
+          value="뒤로가기"
+        />
+        <input
+          type="button"
+          class="complete"
+          value="송금 후 완료하기"
+          onclick="cash()"
+        />
+      </form>
+    </div>
+    <script>
+      $(document).ready(function () {
+        // 페이지가 로드될 때 사용자 정보를 가져와서 프로필 수정 폼에 채웁니다.
+        fetchUserInfo();
+        fetchGoodsInfo();
+      });
+      function fetchUserInfo() {
+        // 사용자 정보를 가져오는 API 엔드포인트에 요청을 보냅니다.
+        let userToken = { userToken: localStorage.getItem("userId") };
+        fetch(`http://localhost:3000/api/buy_user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userToken),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("네트워크 응답이 올바르지 않습니다.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            //console.log(data);
+            // 서버로부터 가져온 사용자 정보를 폼 필드에 채웁니다.
+            document.getElementById("ordername").value = data.userName;
+            document.getElementById("address").value = data.userAddr;
+            document.getElementById("orderphone").value = data.userPhone;
+          })
+          .catch((error) => {
+            console.error("API 호출 중에 오류가 발생했습니다:", error);
+          });
+      }
+      function fetchGoodsInfo() {
+        // 상품 정보를 가져오는 API 엔드포인트에 요청을 보냅니다.
+        let goodsToken = {
+          goodsToken: localStorage.getItem("goodsToken"),
+        };
+        let Goods_q = {
+          Goods_q: localStorage.getItem("Goods_q"),
+        };
+        fetch(`http://localhost:3000/api/buy_goods`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(goodsToken),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("네트워크 응답이 올바르지 않습니다.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            //console.log(data);
+            // 서버로부터 가져온 상품 정보를 폼 필드에 채웁니다.
+            console.log(Goods_q.Goods_q);
+            document.getElementById("goods_name").textContent = data.Goods_name;
+            document.getElementById("price").value = data.price;
+            document.getElementById("Goods_q").value = Goods_q.Goods_q;
+            document.getElementById("total_price").value =
+              data.price * Goods_q.Goods_q + 3000;
+            const aboveImageElement = document.getElementById("Goods_img_src");
+            // Use the relative URL to access the image
+            if (aboveImageElement) {
+              const imagePath = `http://localhost:3000${data.Goods_img_src}.jpg`;
+              aboveImageElement.style.backgroundImage = `url(${imagePath})`;
+            } else {
+              console.log("불가능");
+            }
+          })
+          .catch((error) => {
+            console.error("API 호출 중에 오류가 발생했습니다:", error);
+          });
+      }
+      async function cash() {
+        let buyToken = {
+          buyToken: localStorage.getItem("goodsToken"),
+          userId: localStorage.getItem("userId"),
+          Goods_q: localStorage.getItem("Goods_q"),
+        };
+        try {
+          const response = await fetch(`http://localhost:3000/api/onebuy`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(buyToken),
+          });
+          if (response.status === 200) {
+            // 서버 응답이 성공인 경우
+            // response를 출력하도록 수정
+            // 로컬 스토리지, 세션 스토리지에서 토큰을 삭제 또는 무효화
+            localStorage.removeItem("goodsToken"); // 로컬 스토리지에서 토큰 삭제
+            window.location.href = "banner.html"; // 페이지 이동
+          } else {
+            // 서버 응답이 성공이 아닌 경우
+            return console.error("Error:", response.statusText);
+          }
+        } catch (error) {
+          return console.error("Error during fetch:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

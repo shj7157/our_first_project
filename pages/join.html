@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>join</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+      .containerx {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .h2 {
+        text-align: center;
+      }
+      .joinform {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      input[type="radio"] {
+        margin-right: 5px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="tel"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 70%;
+      }
+      input[type="submit"] {
+        background: #333;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #id_check {
+        height: 35px;
+      }
+      /*#password{  비밃번호 확인과 비밀번호가 일치할때 표시하기.
+            background:url(check-check.png) no-repeat center right 15px;
+            background-size: 20px;
+            background-color: #fff;
+        }*/
+    </style>
+  </head>
+  <body>
+    <div class="containerx">
+      <h2 class="h2">간편 회원가입</h2>
+      <form class="joinform" name="joinform" action="">
+        <label for="userid">아이디</label>
+        <div id="user_id">
+          <input
+            type="text"
+            id="userid"
+            name="userid"
+            placeholder="6자 이상 입력하세요."
+            required
+          />
+          <input type="button" value="중복확인" id="id_check" />
+        </div>
+
+        <label for="password">비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="6자 이상 입력하세요"
+          required
+        />
+
+        <br />
+
+        <label for="password_check">비밀번호 확인</label>
+        <input
+          type="password"
+          id="password_check"
+          name="password_check"
+          required
+        />
+        <div id="password-match-message"></div>
+
+        <label for="username">이름</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="addr">주소</label>
+        <input type="text" id="addr" name="addr" required />
+
+        <label for="birth">생년월일</label>
+        <input
+          type="text"
+          id="birth"
+          name="birth"
+          placeholder="ex.010122"
+          required
+        />
+
+        <br />
+
+        <label for="phone">전화번호</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="ex. 010-1234-5678"
+          required
+        />
+
+        <input type="button" onclick="join()" value="가입하기" />
+      </form>
+    </div>
+    <script>
+      const passwordField = document.getElementById("password");
+      const passwordCheckField = document.getElementById("password_check");
+      const passwordMatchMessage = document.getElementById(
+        "password-match-message"
+      );
+
+      // 비밀번호와 비밀번호 확인 필드의 값이 변경될 때 이벤트 리스너를 등록합니다.
+      passwordField.addEventListener("input", checkPasswordMatch);
+      passwordCheckField.addEventListener("input", checkPasswordMatch);
+
+      function checkPasswordMatch() {
+        // 비밀번호와 비밀번호 확인 필드의 값이 같은지 비교합니다.
+        if (passwordField.value === passwordCheckField.value) {
+          passwordMatchMessage.textContent = "비밀번호가 일치합니다.";
+          passwordMatchMessage.style.color = "green";
+        } else {
+          passwordMatchMessage.textContent = "비밀번호가 일치하지 않습니다.";
+          passwordMatchMessage.style.color = "red";
+        }
+        if (passwordField.value.length < 6) {
+          passwordMatchMessage.textContent =
+            "비밀번호는 6자 이상이어야 합니다.";
+          passwordMatchMessage.style.color = "red";
+        }
+      }
+      function join() {
+        var joinform = document.joinform;
+
+        var joinInfo = {
+          userid: joinform.userid.value,
+          password: joinform.password.value,
+          username: joinform.username.value,
+          addr: joinform.addr.value,
+          birth: joinform.birth.value,
+          phone: joinform.phone.value,
+        };
+        var userid = joinform.userid.value;
+        var password = joinform.password.value;
+        var password_check = joinform.password_check.value;
+        var username = joinform.username.value;
+        var addr = joinform.addr.value;
+        var birth = joinform.birth.value;
+        var phone = joinform.phone.value;
+
+        if (password !== password_check) return alert("ssss");
+
+        fetch(`http://localhost:3000/api/join`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(joinInfo),
+        }) // 예제 API URL입니다. 실제로 작동하지 않을 수 있습니다.
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("네트워크 응답이 올바르지 않습니다.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.message == "success") {
+              // 현재 페이지를 다른 페이지로 이동
+              window.location.href = "login.html";
+            }
+            // document.getElementById('result').innerHTML = JSON.stringify(data);
+          })
+          .catch((error) => {
+            console.error("API 호출 중에 오류가 발생했습니다:", error);
+          });
+      }
+    </script>
+  </body>
+</html>

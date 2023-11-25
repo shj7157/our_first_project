@@ -1,0 +1,401 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: whitesmoke;
+  color: black;
+}
+
+.container {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+ul {
+  list-style: none;
+}
+
+.topNav {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  transition: background-color 0.3s linear;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.topNav:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+.topNav > .logo {
+  width: 8rem;
+  height: 3rem;
+  background-image: url("./image/KakaoTalk_20231108_180100410.png");
+  background-size: cover;
+}
+.topNav > .menuList {
+  display: flex;
+  flex-direction: row;
+}
+.topNav > .menuList > .menu {
+  position: relative;
+  display: inline-block;
+  margin-right: 3rem;
+}
+.topNav > .menuList > .menu > .menu-selected:hover .menu-content,
+.topNav > .menuList > .menu > .menu-selected:focus .menu-content {
+  display: block;
+  display: none;
+}
+
+.topNav > .menuList > .menu .menu-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 5px 5px 0px rgb(40, 39, 39);
+  z-index: 1;
+}
+.topNav > .menuList > .menu .menu-content li {
+  color: black;
+  padding: 15px;
+  text-decoration: none;
+  display: block;
+}
+
+#sel:hover {
+  background-color: #ededed;
+}
+
+main {
+  margin: 0;
+  padding: 0;
+  width: 99vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+main > .new {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+main > .new > .newSection {
+  width: 99%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+main > .bannerclass {
+  width: 99vw;
+  height: 350px;
+  box-shadow: 4px 5px 5px 4px rgba(211, 211, 211, 1);
+}
+
+a {
+  text-decoration-line: none;
+  color: black;
+  text-decoration: none;
+}
+ul.new {
+  text-align: center;
+  font-size: 25px;
+  font: serif;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.new_img {
+  margin-left: 5%;
+  margin-right: 5%;
+  display: inline-block;
+  box-shadow: 4px 5px 5px 4px rgba(211, 211, 211, 0.5);
+}
+.new_img > .newimgItem {
+  width: 335px;
+  height: 300px;
+  margin: 20px;
+  background-size: cover;
+  display: inline-block;
+}
+.new_img > .newimgItem:nth-child(1) {
+  background-image: url("./image/jka1.JPG");
+}
+.new_img > .newimgItem:nth-child(2) {
+  background-image: url("./image/shj1.JPG");
+}
+.new_img > .newimgItem:nth-child(3) {
+  background-image: url("./image/shj2.JPG");
+}
+.new_img > .newimgItem:nth-child(4) {
+  background-image: url("./image/kmt1.JPG");
+}
+.new_img > .newimgItem > .newimgBlur {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s linear;
+}
+.new_img > .newimgItem > .newimgBlur:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+main > .bestSection {
+  width: 99vw;
+  height: 2000px;
+}
+main > .bestSection > .best {
+  text-align: center;
+}
+main > .bestSection > .bestDiv > .bestUl {
+  display: flex;
+  flex-wrap: wrap; /* 자식 요소들이 여러 행에 걸쳐 나열될 수 있도록 설정 */
+  justify-content: space-around; /* 요소들을 가로 방향으로 가운데 정렬 */
+  align-items: center; /* 요소들을 세로 방향으로 가운데 정렬 */
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+main > .bestSection > .bestDiv > .bestUl > .bestimage {
+  text-align: center; /* 내부 텍스트를 가운데 정렬 (선택사항) */
+  width: 22%; /* 한 행에 4개의 이미지가 보이도록 25%로 설정 */
+  padding: 10px; /* 이미지 사이의 간격 설정 (선택사항) */
+  height: 500px;
+  background-size: cover;
+  margin: 10px;
+}
+main > .bestSection > .bestDiv > .bestUl {
+  display: flex;
+}
+.bestUl > .bestimage > .bestimageBlur > p:hover,
+.bestUl > .bestimage > .bestimageBlur {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s linear;
+  opacity: 1;
+}
+.bestUl > .bestimage > .bestimageBlur:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.bestUl > .bestimage > .bestimageBlur {
+  position: relative;
+}
+
+.bestUl > .bestimage > .bestimageBlur > p {
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  color: beige;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 300;
+  transition: opacity 0.3s linear;
+}
+
+.bestUl > .bestimage > .bestimageBlur:hover p {
+  opacity: 1;
+}
+main > .bestSection {
+  width: 99vw;
+  height: 2000px;
+}
+main > .bestSection > .best {
+  text-align: center;
+}
+main > .bestSection > .bestDiv > .bestUl {
+  display: flex;
+  flex-wrap: wrap; /* 자식 요소들이 여러 행에 걸쳐 나열될 수 있도록 설정 */
+  justify-content: space-around; /* 요소들을 가로 방향으로 가운데 정렬 */
+  align-items: center; /* 요소들을 세로 방향으로 가운데 정렬 */
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+main > .bestSection > .bestDiv > .bestUl > .bestimage {
+  text-align: center; /* 내부 텍스트를 가운데 정렬 (선택사항) */
+  width: 22%; /* 한 행에 4개의 이미지가 보이도록 25%로 설정 */
+  padding: 10px; /* 이미지 사이의 간격 설정 (선택사항) */
+  height: 500px;
+  background-size: cover;
+  margin: 10px;
+}
+main > .bestSection > .bestDiv > .bestUl {
+  display: flex;
+}
+.bestUl > .bestimage > .bestimageBlur > p:hover,
+.bestUl > .bestimage > .bestimageBlur {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s linear;
+  opacity: 1;
+}
+.bestUl > .bestimage > .bestimageBlur:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.bestUl > .bestimage > .bestimageBlur {
+  position: relative;
+}
+
+.bestUl > .bestimage > .bestimageBlur > p {
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  color: beige;
+  font-size: 15px;
+  text-align: center;
+  font-weight: 300;
+  transition: opacity 0.3s linear;
+}
+.bestUl > .bestimage > .bestimageBlur:hover p {
+  opacity: 1;
+}
+
+main > .outerSection {
+  width: 99vw;
+  height: 2000px;
+}
+main > .outerSection > .best {
+  text-align: center;
+}
+main > .outerSection > .outerDiv > .outerUl {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+main > .outerSection > .outerDiv > .outerUl > .outerimage {
+  text-align: center;
+  width: 22%;
+  padding: 10px;
+  height: 500px;
+  background-size: cover;
+  margin: 10px;
+}
+main > .outerSection > .outerDiv > .outerUl {
+  display: flex;
+}
+.outerUl > .outerimage > .outerimageBlur > p:hover,
+.outerUl > .outerimage > .outerimageBlur {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s linear;
+  opacity: 1;
+}
+.outerUl > .outerimage > .outerimageBlur:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.outerUl > .outerimage > .outerimageBlur {
+  position: relative;
+}
+
+.outerUl > .outerimage > .outerimageBlur > p {
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  color: beige;
+  font-size: 15px;
+  text-align: center;
+  font-weight: 300;
+  transition: opacity 0.3s linear;
+}
+.outerUl > .outerimage > .outerimageBlur:hover p {
+  opacity: 1;
+}
+
+main > .aboveSection {
+  width: 99vw;
+  height: 900px;
+}
+main > .aboveSection > .above {
+  text-align: center;
+}
+main > .aboveSection > .aboveDiv > .aboveUl {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+main > .aboveSection > .aboveDiv > .aboveUl > .aboveimage {
+  text-align: center;
+  width: 22%;
+  padding: 10px;
+  height: 500px;
+  background-size: cover;
+  margin: 10px;
+}
+main > .aboveSection > .aboveDiv > .aboveUl {
+  display: flex;
+}
+.aboveUl > .aboveimage > .aboveimageBlur > p:hover,
+.aboveUl > .aboveimage > .aboveimageBlur {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s linear;
+  opacity: 1;
+}
+.aboveUl > .aboveimage > .aboveimageBlur:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.aboveUl > .aboveimage > .aboveimageBlur {
+  position: relative;
+}
+
+.aboveUl > .aboveimage > .aboveimageBlur > p {
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  color: beige;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 300;
+  transition: opacity 0.3s linear;
+}
+.aboveUl > .aboveimage > .aboveimageBlur:hover p {
+  opacity: 1;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 99vw;
+  opacity: 0.2;
+  background-color: rgba(240, 240, 240, 0.2);
+  z-index: 999;
+}
+footer .footdiv .footRight {
+  text-align: right;
+  font-size: 10px;
+}

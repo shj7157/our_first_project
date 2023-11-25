@@ -1,0 +1,20 @@
+.containerx {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-top: 95px;
+}
+.h2 {
+  text-align: center;
+}
+.joinform {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+td {
+  text-align: center;
+}

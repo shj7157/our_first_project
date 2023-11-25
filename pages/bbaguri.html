@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="jquery-3.7.0.min.js"></script>
+    <title>쇼핑몰 장바구니</title>
+    <link rel="stylesheet" href="main.css" />
+    <style>
+      .cart__bigorderbtn.left {
+        background-color: white;
+        border: 1px lightgray solid;
+      }
+
+      .cart__bigorderbtn.right {
+        background-color: rgb(0, 0, 0);
+        color: white;
+        border: none;
+      }
+      .cart__bigorderbtn.right:hover {
+        background-color: rgb(65, 67, 65);
+        transition: 0.3s;
+      }
+      .cart__bigorderbtn.left:hover {
+        background-color: rgb(160, 158, 158);
+        transition: 0.3s;
+      }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $(".menu-selected").hover(
+          function () {
+            $(this).find(".menu-content").css("display", "block");
+          },
+          function () {
+            $(this).find(".menu-content").css("display", "none");
+          }
+        );
+        $(".menu-selected")
+          .focusin(function () {
+            $(this).find(".menu-content").css("display", "block");
+          })
+          .focusout(function () {
+            $(this).find(".menu-content").css("display", "none");
+          });
+      });
+      window.onload = function () {
+        const topNav = document.getElementById("topNav");
+
+        topNav.addEventListener("mouseenter", () => {
+          topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+        });
+
+        topNav.addEventListener("mouseleave", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 0) {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+          } else {
+            topNav.style.backgroundColor = "rgba(255, 255, 255, 1)";
+          }
+        });
+      };
+    </script>
+    <style>
+      p.jang {
+        width: 80%;
+        margin: auto;
+        padding: 30px;
+        font-size: 40px;
+      }
+      body {
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      p,
+      span {
+        margin: 0;
+      }
+
+      a {
+        color: black;
+      }
+
+      img {
+        display: block;
+        width: 80%;
+        height: 80px;
+        margin: auto;
+      }
+
+      .cart {
+        width: 80%;
+        margin: auto;
+        padding: 30px;
+      }
+
+      .cart ul {
+        background-color: whitesmoke;
+        padding: 30px;
+        margin-bottom: 50px;
+        border: whitesmoke solid 1px;
+        border-radius: 5px;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      .cart ul :first-child {
+        color: limegreen;
+      }
+
+      table {
+        border-top: solid 1.5px black;
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+      }
+
+      thead {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      tbody {
+        font-size: 12px;
+      }
+
+      td {
+        padding: 15px 0px;
+        border-bottom: 1px solid lightgrey;
+      }
+
+      .cart__list__smartstore {
+        font-size: 12px;
+        color: gray;
+      }
+
+      .cart__list__option {
+        vertical-align: top;
+        padding: 20px;
+      }
+
+      .cart__list__option p {
+        margin-bottom: 25px;
+        position: relative;
+      }
+
+      .cart__list__option p::after {
+        content: "";
+        width: 90%;
+        height: 1px;
+        background-color: lightgrey;
+        left: 0px;
+        top: 25px;
+        position: absolute;
+      }
+
+      .cart__list__optionbtn {
+        background-color: white;
+        font-size: 10px;
+        border: lightgrey solid 1px;
+        padding: 7px;
+      }
+
+      td {
+        text-align: center;
+      }
+
+      .price {
+        font-weight: bold;
+      }
+
+      .cart__mainbtns {
+        width: 420px;
+        height: 200px;
+        padding-top: 40px;
+        display: block;
+        margin: auto;
+      }
+
+      .cart__bigorderbtn {
+        width: 200px;
+        height: 50px;
+        font-size: 16px;
+        margin: auto;
+        border-radius: 5px;
+      }
+
+      .cart__bigorderbtn.left {
+        background-color: white;
+        border: 1px lightgray solid;
+      }
+
+      .cart__bigorderbtn.right {
+        background-color: limegreen;
+        color: white;
+        border: none;
+      }
+      div.Total {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="topNav" id="topNav">
+      <a href="banner.html" class="logo"></a>
+      <div class="menuList">
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">item ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="top.html"><li id="sel">top</li></a>
+              <a href="bottom.html"><li id="sel">bottom</li></a>
+              <a href="outer.html"><li id="sel">outer</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">home page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="bord.html"><li id="sel">게시판</li></a>
+              <a href="notice.html"><li id="sel">notice</li></a>
+              <a href="center.html"><li id="sel">고객센터</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu">
+          <ul class="menu-selected">
+            <div class="me">my page ▼</div>
+            <div class="menu-content" style="display: none">
+              <a href="order_list.html"><li id="sel">주문 내역</li></a>
+              <a href="mypage.html"><li id="sel">내 정보</li></a>
+              <a href="bbaguri.html"><li id="sel">cart</li></a>
+            </div>
+          </ul>
+        </div>
+        <div class="menu" id="loginButtonContainer">
+          <a id="loginButton" href="login.html">Login</a>
+        </div>
+        <div class="menu" id="logoutButtonContainer" style="display: none">
+          <a id="logoutButton" href="#" onclick="logoutButtonClick()">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <br /><br /><br /><br /><br /><br /><br />
+    <p
+      class="jang"
+      style="
+        text-align: center;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+      "
+    >
+      cart
+    </p>
+    <section class="cart">
+      <table class="cart__list">
+        <form id="orderForm">
+          <thead>
+            <tr>
+              <td>상품정보</td>
+              <td>수량</td>
+              <td>상품금액</td>
+              <td>총금액</td>
+              <td>선택</td>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <p style="text-align: right">배송비는 3000원 고정입니다.</p>
+        </form>
+      </table>
+
+      <div class="cart__mainbtns">
+        <button class="cart__bigorderbtn left" onclick="continueShopping()">
+          쇼핑 계속하기
+        </button>
+        <button class="cart__bigorderbtn right" onclick="placeOrder()">
+          주문하기
+        </button>
+      </div>
+    </section>
+    <script src="logined.js"></script>
+    <script>
+      $(document).ready(function () {
+        // 페이지가 로드될 때 사용자 정보를 가져와서 프로필 수정 폼에 채웁니다.
+        fetchorderInfo();
+      });
+      const newtd = (content) => {
+        let newTdElement = document.createElement("td");
+        newTdElement.textContent = content;
+        return newTdElement;
+      };
+      function fetchorderInfo() {
+        // Get Goods_no from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const or_no = urlParams.get("userId");
+
+        // 상품 정보를 가져오는 API 엔드포인트에 요청을 보냅니다.
+        let orderToken = { orderToken: localStorage.getItem("userId") };
+        fetch(`http://localhost:3000/api/cart`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderToken),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("네트워크 응답이 올바르지 않습니다.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            const tbody = document.querySelector("tbody");
+
+            data.forEach((elementData) => {
+              const tr = document.createElement("tr");
+              const total_price = newtd(
+                elementData.Goods_q * elementData.price
+              );
+              // 각 데이터에 대한 td 엘리먼트 생성 및 tr에 추가
+              const goodsNoTd = newtd(elementData.goods_no);
+              const orQTd = newtd(elementData.Goods_q);
+              const goodsNameTd = newtd(elementData.Goods_name);
+              const priceTd = newtd(elementData.price);
+              const checkboxx = document.createElement("input");
+              checkboxx.type = "checkbox";
+              checkboxx.id = "orderCheckbox";
+              // checkboxx.class = "orderCheckbox";
+              checkboxx.classList.add("orderCheck");
+              checkboxx.value = elementData.cart_no;
+              tr.appendChild(goodsNameTd);
+              tr.appendChild(orQTd);
+              tr.appendChild(priceTd);
+              tr.appendChild(total_price);
+              tr.appendChild(checkboxx);
+              // tr.appendChild(data.or_q * data.price);
+
+              // tbody에 tr 추가
+              tbody.appendChild(tr);
+            });
+          })
+          .catch((error) => {
+            console.error("API 호출 중에 오류가 발생했습니다:", error);
+          });
+      }
+    </script>
+    <script>
+      function continueShopping() {
+        // 쇼핑 계속하기 버튼 동작 추가
+        window.location.href = "banner.html";
+      }
+
+      function placeOrder() {
+        const orderForm = document.getElementById("orderForm");
+        const checkboxes = document.getElementsByClassName("orderCheck");
+        // console.log(checkboxes);
+        let oder = [];
+        Array.from(checkboxes).forEach((item) => {
+          if (item.checked) oder.push(item.value);
+        });
+        localStorage.setItem("cartSelectList", oder);
+        window.location.href = "cart_buy.html";
+      }
+    </script>
+  </body>
+</html>
