@@ -3,10 +3,21 @@
   "version": "1.0.0",
   "description": "team",
   "main": "app.js",
- 
   "scripts": {
     "start": "node backend/cc_back/views/app.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shj7157/our_first_project.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/shj7157/our_first_project/issues"
+  },
+  "homepage": "https://github.com/shj7157/our_first_project#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.1.13"
+  }
 }
